@@ -1,0 +1,10 @@
+{
+	"id": "obsidian-changecase-plugin",
+	"name": "Change Case",
+	"version": "0.0.1",
+	"minAppVersion": "0.9.12",
+	"description": "A text formatting plugin for Obsidian.",
+	"author": "Willie Johnson",
+	"authorUrl": "https://liwatec.xyz/about",
+	"isDesktopOnly": false
+}
