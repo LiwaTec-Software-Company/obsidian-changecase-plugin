@@ -195,35 +195,29 @@ class SampleModal extends Modal {
 			switch (value) {
 				case 'camel':
 					this.changedText = convertToCamel(this.selectedText);
-					title.innerText = this.changedText;
 					break;
 				case 'snake':
 					this.changedText = convertToSnake(this.selectedText);
-					title.innerText = this.changedText;
 					break;
 				case 'title':
 					this.changedText = convertToTitle(this.selectedText);
-					title.innerText = this.changedText;
 					break;
 				case 'sentence':
 					this.changedText = convertToSentence(this.selectedText);
-					title.innerText = this.changedText;
 					break;
 				case 'lower':
 					this.changedText = this.selectedText.toLowerCase();
-					title.innerText = this.changedText;
 					break;
 				case 'upper':
 					this.changedText = this.selectedText.toUpperCase();
-					title.innerText = this.changedText;
 					break;
 				case 'dot':
 					this.changedText = convertToDot(this.selectedText);
-					title.innerText = this.changedText;
 					break;
 				default:
 					break;
 			}
+			title.innerText = this.changedText;
 		})
 
 		return container;
@@ -262,29 +256,34 @@ class SampleSettingTab extends PluginSettingTab {
 
 
 function convertToCamel(str: string): string {
-		return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function(word, index) {
+		return str.replace(/(\s|_|-|\.)|\B(?=[A-Z])/g, " ")
+			.replace(/(?:^\w|[A-Z]|\b\w)/g, function(word, index) {
 			return index === 0 ? word.toLowerCase() : word.toUpperCase();
 		}).replace(/\s+/g, '');
 }
 
 function convertToSnake(str: string): string {
-    return str.replace(/\W+/g, " ")
-      .split(/ |\B(?=[A-Z])/)
+    return str.replace(/(\s|_|-|\.)|\B(?=[A-Z])/g, " ")
+			.split(/ |\B(?=[A-Z])/)
       .map(word => word.toLowerCase())
       .join('_');
 }
 
 function convertToTitle(str: string): string {
-	throw new Error('Function not implemented.');
+    return str.replace(/(\s|_|-|\.)|\B(?=[A-Z])/g, " ")
+        .split(/ |\B(?=[A-Z])/)
+        .map((word) => word[0].toUpperCase() + word.slice(1).toLowerCase())
+        .join(' ');
 }
 
 
 function convertToSentence(str: string): string {
-	throw new Error('Function not implemented.');
+	return str.replace(/(\s|_|-|\.)|\B(?=[A-Z])/g, " ").toLowerCase()
+		.replace(/(^\s*\w|[\.\!\?]\s*\w)/g, function(c) { return c.toUpperCase() });
 }
 
 function convertToDot(str: string): string {
-	return str.replace(/\W+/g, " ")
-      .split(/ |\B(?=[A-Z])/)
+	return str.replace(/(\s|_|-|\.)|\B(?=[A-Z])/g, " ")
+			.split(/ |\B(?=[A-Z])/)
       .join('.');
 }
