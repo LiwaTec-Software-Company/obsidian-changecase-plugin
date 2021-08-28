@@ -16,7 +16,7 @@ export default class MyPlugin extends Plugin {
 
 		await this.loadSettings();
 
-		this.addRibbonIcon('dice', 'Change Case', () => {
+		this.addRibbonIcon('reset', 'Change Case', () => {
 			new Notice('Quick change activated');
 			this.changeCaseModal()
 		});
