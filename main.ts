@@ -116,11 +116,11 @@ class SampleModal extends Modal {
 		const title = contentEl.createEl('h2');
 		title.innerText = this.selectedText;
 
-		const subTitle = contentEl.createEl('div');
+		const subTitle = contentEl.createEl('p');
 		subTitle.innerText = "Select option to change the word's case:";
 
-		const { iframeAspectRatioContainer } = this.createIframeContainerEl(contentEl, this.selectedText);
-		const caseInput = this.createCaseInput(iframeAspectRatioContainer, title);
+		const { caseInputContainer } = this.caseInputContainer(contentEl, this.selectedText);
+		const caseInput = this.createCaseInput(caseInputContainer, title);
 
 		const cancelButton = contentEl.createEl('button');
 		cancelButton.setText('Cancel');
@@ -155,35 +155,31 @@ class SampleModal extends Modal {
 		contentEl.empty();
 	}
 
-	createIframeContainerEl(contentEl: HTMLElement, url: string): { iframeAspectRatioContainer: HTMLElement } {
+	caseInputContainer(contentEl: HTMLElement, url: string): { caseInputContainer: HTMLElement } {
 		// Inline styling to make sure that the created iframe will keep the style even without the plugin
 
 		// This container enforce the aspect ratio. i.e. it's height is based on the width * ratio
-		const ratioContainer = contentEl.createEl('div');
-		ratioContainer.style.display = 'block'
-		ratioContainer.style.position = 'relative';
-		ratioContainer.style.width = '100%';
+		const container = contentEl.createEl('div');
+		container.style.width = '100%';
 		// The height is determined by the padding which respect the ratio
 		// See https://www.benmarshall.me/responsive-iframes/
-		ratioContainer.style.height = "0px";
-		ratioContainer.style.setProperty('--aspect-ratio', '9/16');
-		ratioContainer.style.paddingBottom = 'calc(var(--aspect-ratio) * 100%)';
+		container.style.height = "100%";
 
 		return {
-			iframeAspectRatioContainer: ratioContainer
+			caseInputContainer: container
 		};
 	}
 
-	createCaseInput(iframeRatioContainer: HTMLElement, title: HTMLHeadingElement): HTMLDivElement {
-		const caseInputContainer = iframeRatioContainer.createEl('div');
+	createCaseInput(caseInputContainer: HTMLElement, title: HTMLHeadingElement): HTMLDivElement {
+		const container = caseInputContainer.createEl('div');
 		const inputLabelName = "case";
-		caseInputContainer.className = "space-x"
+		container.className = "space-x"
 
-		const inputLabel = caseInputContainer.createEl('label');
+		const inputLabel = container.createEl('label');
 		inputLabel.setAttribute('for', inputLabelName);
 		inputLabel.innerText = 'Case: ';
 
-		const caseInput = new DropdownComponent(caseInputContainer)
+		const caseInput = new DropdownComponent(container)
 		caseInput.addOptions({
 			'default': 'Select Case', 
 			'camel': 'camelCase', 
@@ -230,7 +226,7 @@ class SampleModal extends Modal {
 			}
 		})
 
-		return caseInputContainer;
+		return container;
 	}
 
 }
