@@ -23,7 +23,7 @@ export default class MyPlugin extends Plugin {
 
 		this.addCommand({
 			id: 'open-changecase-modal',
-			name: 'Choose',
+			name: '',
 			callback: () => this.changeCaseModal()
 		});
 
@@ -32,7 +32,43 @@ export default class MyPlugin extends Plugin {
 			name: 'Camel',
 			callback: () => this.changeToCamel()
 		});
+
+		this.addCommand({
+			id: 'changecase-snake',
+			name: 'Snake',
+			callback: () => this.changeToSnake()
+		});
 		
+				this.addCommand({
+			id: 'changecase-dot',
+			name: 'Dot',
+			callback: () => this.changeToDot()
+		});
+				this.addCommand({
+			id: 'changecase-dash',
+			name: 'Dash',
+			callback: () => this.changeToDash()
+		});
+				this.addCommand({
+			id: 'changecase-title',
+			name: 'Title',
+			callback: () => this.changeToTitle()
+		});
+		this.addCommand({
+			id: 'changecase-sentence',
+			name: 'Sentence',
+			callback: () => this.changeToSentence()
+		});
+		this.addCommand({
+			id: 'changecase-upper',
+			name: 'Upper',
+			callback: () => this.changeToUpper()
+		});
+		this.addCommand({
+			id: 'changecase-lower',
+			name: 'Lower',
+			callback: () => this.changeToLower()
+		});
 
 		this.addSettingTab(new SampleSettingTab(this.app, this));
 
@@ -78,8 +114,119 @@ export default class MyPlugin extends Plugin {
 			new Notice('Select text to change case.');
 		}
 	}
-	
 
+	changeToSnake(): void {
+	let activeLeaf: any = this.app.workspace.activeLeaf;
+	let editor = activeLeaf.view.sourceMode.cmEditor;
+	let selectedText = editor.somethingSelected()
+	? editor.getSelection()
+	: false;
+
+	if (selectedText) {
+		if (activeLeaf) {
+			editor.replaceSelection(convertToSnake(selectedText));
+		}
+	} else {
+		new Notice('Select text to change case.');
+	}
+	}
+	
+	changeToDot(): void {
+		let activeLeaf: any = this.app.workspace.activeLeaf;
+		let editor = activeLeaf.view.sourceMode.cmEditor;
+		let selectedText = editor.somethingSelected()
+		? editor.getSelection()
+		: false;
+
+		if (selectedText) {
+			if (activeLeaf) {
+				editor.replaceSelection(convertToDot(selectedText));
+			}
+		} else {
+			new Notice('Select text to change case.');
+		}
+	}
+
+	changeToDash(): void {
+		let activeLeaf: any = this.app.workspace.activeLeaf;
+		let editor = activeLeaf.view.sourceMode.cmEditor;
+		let selectedText = editor.somethingSelected()
+		? editor.getSelection()
+		: false;
+
+		if (selectedText) {
+			if (activeLeaf) {
+				editor.replaceSelection(convertToDash(selectedText));
+			}
+		} else {
+			new Notice('Select text to change case.');
+		}
+	}
+
+	changeToTitle(): void {
+		let activeLeaf: any = this.app.workspace.activeLeaf;
+		let editor = activeLeaf.view.sourceMode.cmEditor;
+		let selectedText = editor.somethingSelected()
+		? editor.getSelection()
+		: false;
+
+		if (selectedText) {
+			if (activeLeaf) {
+				editor.replaceSelection(convertToTitle(selectedText));
+			}
+		} else {
+			new Notice('Select text to change case.');
+		}
+	}
+	
+	changeToSentence(): void {
+		let activeLeaf: any = this.app.workspace.activeLeaf;
+		let editor = activeLeaf.view.sourceMode.cmEditor;
+		let selectedText = editor.somethingSelected()
+		? editor.getSelection()
+		: false;
+
+		if (selectedText) {
+			if (activeLeaf) {
+				editor.replaceSelection(convertToSentence(selectedText));
+			}
+		} else {
+			new Notice('Select text to change case.');
+		}
+	}
+	
+	changeToUpper(): void {
+		let activeLeaf: any = this.app.workspace.activeLeaf;
+		let editor = activeLeaf.view.sourceMode.cmEditor;
+		let selectedText = editor.somethingSelected()
+		? editor.getSelection()
+		: false;
+
+		if (selectedText) {
+			if (activeLeaf) {
+				editor.replaceSelection(convertToUpper(selectedText));
+			}
+		} else {
+			new Notice('Select text to change case.');
+		}
+	}
+	
+	changeToLower(): void {
+		let activeLeaf: any = this.app.workspace.activeLeaf;
+		let editor = activeLeaf.view.sourceMode.cmEditor;
+		let selectedText = editor.somethingSelected()
+		? editor.getSelection()
+		: false;
+
+		if (selectedText) {
+			if (activeLeaf) {
+				editor.replaceSelection(convertToLower(selectedText));
+			}
+		} else {
+			new Notice('Select text to change case.');
+		}
+	}
+	
 	onunload() {
 		console.log('unloading plugin');
 	}
@@ -189,7 +336,7 @@ class SampleModal extends Modal {
 			'title': 'Title Case',
 			'sentence': 'Sentence case',
 			'upper': 'UPPER CASE',
-			'lower': 'lower case'
+			'lower': 'lower case',
 		})
 
 		caseInput.onChange((value) => {
