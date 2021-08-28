@@ -169,15 +169,6 @@ class SampleModal extends Modal {
 		ratioContainer.style.setProperty('--aspect-ratio', '9/16');
 		ratioContainer.style.paddingBottom = 'calc(var(--aspect-ratio) * 100%)';
 
-		const iframe = ratioContainer.createEl('iframe');
-		iframe.src = url;
-		iframe.allow = "fullscreen"
-		iframe.style.position = 'absolute';
-		iframe.style.top = '0px';
-		iframe.style.left = '0px';
-		iframe.style.height = '100%';
-		iframe.style.width = '100%';
-
 		return {
 			iframeAspectRatioContainer: ratioContainer
 		};
@@ -208,29 +199,35 @@ class SampleModal extends Modal {
 			switch (value) {
 				case 'camel':
 					this.changedText = convertToCamel(this.selectedText);
+					title.innerText = this.changedText;
 					break;
 				case 'snake':
 					this.changedText = convertToSnake(this.selectedText);
+					title.innerText = this.changedText;
 					break;
 				case 'title':
 					this.changedText = convertToTitle(this.selectedText);
+					title.innerText = this.changedText;
 					break;
 				case 'sentence':
 					this.changedText = convertToSentence(this.selectedText);
+					title.innerText = this.changedText;
 					break;
 				case 'lower':
-					this.changedText = convertToLower(this.selectedText);
+					this.changedText = this.selectedText.toLowerCase();
+					title.innerText = this.changedText;
 					break;
 				case 'upper':
-					this.changedText = convertToUpper(this.selectedText);
+					this.changedText = this.selectedText.toUpperCase();
+					title.innerText = this.changedText;
 					break;
 				case 'dot':
 					this.changedText = convertToDot(this.selectedText);
+					title.innerText = this.changedText;
 					break;
 				default:
 					break;
 			}
-			title.innerText = this.changedText;
 		})
 
 		return caseInputContainer;
@@ -268,36 +265,30 @@ class SampleSettingTab extends PluginSettingTab {
 }
 
 
-function convertToCamel(selectedText: string): string {
-		return selectedText.replace(/(?:^\w|[A-Z]|\b\w)/g, function(word, index) {
+function convertToCamel(str: string): string {
+		return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function(word, index) {
 			return index === 0 ? word.toLowerCase() : word.toUpperCase();
 		}).replace(/\s+/g, '');
 }
 
-function convertToSnake(selectedText: string): string {
-
+function convertToSnake(str: string): string {
+    return str.replace(/\W+/g, " ")
+      .split(/ |\B(?=[A-Z])/)
+      .map(word => word.toLowerCase())
+      .join('_');
 }
 
-function convertToTitle(selectedText: string): string {
+function convertToTitle(str: string): string {
 	throw new Error('Function not implemented.');
 }
 
 
-function convertToSentence(selectedText: string): string {
+function convertToSentence(str: string): string {
 	throw new Error('Function not implemented.');
 }
 
-
-function convertToLower(selectedText: string): string {
-	throw new Error('Function not implemented.');
-}
-
-
-function convertToUpper(selectedText: string): string {
-	throw new Error('Function not implemented.');
-}
-
-
-function convertToDot(selectedText: string): string {
-	throw new Error('Function not implemented.');
+function convertToDot(str: string): string {
+	return str.replace(/\W+/g, " ")
+      .split(/ |\B(?=[A-Z])/)
+      .join('.');
 }
