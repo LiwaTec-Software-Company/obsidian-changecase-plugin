@@ -405,42 +405,53 @@ class SampleSettingTab extends PluginSettingTab {
 	}
 }
 
+function cleanedString(str: string): string {
+	let reg = /\W+$/;
+	let matches = str.match(reg);
+	console.log(matches)
+	// Check if the string ends with a symbol.
+	if (matches && matches.length) {
+		return str.slice(0, -matches[0].length).replace(/(\s|_|-|\.)|\B(?=[A-Z])/g, " ");
+	} else {
+			return str.replace(/(\s|_|-|\.)|\B(?=[A-Z])/g, " ");
+	}
+}
 
 function convertToCamel(str: string): string {
-		return str.replace(/(\s|_|-|\.)|\B(?=[A-Z])/g, " ")
+		return cleanedString(str)
 			.replace(/(?:^\w|[A-Z]|\b\w)/g, function(word, index) {
 			return index === 0 ? word.toLowerCase() : word.toUpperCase();
 		}).replace(/\s+/g, '');
 }
 
 function convertToSnake(str: string): string {
-    return str.replace(/(\s|_|-|\.)|\B(?=[A-Z])/g, " ")
+    return cleanedString(str)
 			.split(/ |\B(?=[A-Z])/)
       .map(word => word.toLowerCase())
       .join('_');
 }
 
 function convertToTitle(str: string): string {
-    return str.replace(/(\s|_|-|\.)|\B(?=[A-Z])/g, " ")
-        .split(/ |\B(?=[A-Z])/)
-        .map((word) => word[0].toUpperCase() + word.slice(1).toLowerCase())
-        .join(' ');
+	console.log(cleanedString(str));
+    return cleanedString(str)
+		.split(/ |\B(?=[A-Z])/)
+		.map((word) => word[0].toUpperCase() + word.slice(1).toLowerCase()).
+		join(' ');
 }
 
-
 function convertToSentence(str: string): string {
-	return str.replace(/(\s|_|-|\.)|\B(?=[A-Z])/g, " ").toLowerCase()
+	return cleanedString(str).toLowerCase()
 		.replace(/(^\s*\w|[\.\!\?]\s*\w)/g, function(c) { return c.toUpperCase() });
 }
 
 function convertToDot(str: string): string {
-	return str.toLowerCase().replace(/(\s|_|-|\.)|\B(?=[A-Z])/g, " ")
+	return cleanedString(str).toLowerCase()
 			.split(/ |\B(?=[A-Z])/)
       .join('.');
 }
 
 function convertToDash(str: string): string {
-	return str.toLowerCase().replace(/(\s|_|-|\.)|\B(?=[A-Z])/g, " ")
+	return cleanedString(str).toLowerCase()
 			.split(/ |\B(?=[A-Z])/)
       .join('-');
 }
