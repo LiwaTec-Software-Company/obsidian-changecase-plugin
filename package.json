@@ -1,6 +1,6 @@
 {
   "name": "obsidian-changecase-plugin",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "This is a text formatting plugin Obsidian (https://obsidian.md)",
   "main": "main.js",
   "scripts": {
