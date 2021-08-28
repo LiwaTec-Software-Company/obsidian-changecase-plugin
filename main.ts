@@ -183,8 +183,9 @@ class SampleModal extends Modal {
 		caseInput.addOptions({
 			'default': 'Select Case', 
 			'camel': 'camelCase', 
-			'snake': 'snake-case', 
+			'snake': 'snake_case', 
 			'dot': 'dot.case',
+			'dash': 'dash-case',
 			'title': 'Title Case',
 			'sentence': 'Sentence case',
 			'upper': 'UPPER CASE',
@@ -206,13 +207,16 @@ class SampleModal extends Modal {
 					this.changedText = convertToSentence(this.selectedText);
 					break;
 				case 'lower':
-					this.changedText = this.selectedText.toLowerCase();
+					this.changedText = convertToLower(this.selectedText);
 					break;
 				case 'upper':
-					this.changedText = this.selectedText.toUpperCase();
+					this.changedText = convertToUpper(this.selectedText);
 					break;
 				case 'dot':
 					this.changedText = convertToDot(this.selectedText);
+					break;
+				case 'dash':
+					this.changedText = convertToDash(this.selectedText);
 					break;
 				default:
 					break;
@@ -283,7 +287,22 @@ function convertToSentence(str: string): string {
 }
 
 function convertToDot(str: string): string {
-	return str.replace(/(\s|_|-|\.)|\B(?=[A-Z])/g, " ")
+	return str.toLowerCase().replace(/(\s|_|-|\.)|\B(?=[A-Z])/g, " ")
 			.split(/ |\B(?=[A-Z])/)
       .join('.');
 }
+
+function convertToDash(str: string): string {
+	return str.toLowerCase().replace(/(\s|_|-|\.)|\B(?=[A-Z])/g, " ")
+			.split(/ |\B(?=[A-Z])/)
+      .join('-');
+}
+
+function convertToLower(str: string): string {
+		return str.toLowerCase();
+}
+
+function convertToUpper(str: string): string {
+		return str.toUpperCase();
+}
+
